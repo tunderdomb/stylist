@@ -3,32 +3,29 @@
  * */
 
 var uncss = require("uncss")
-var CleanCSS = require("clean-css")
-var autoprefixer = require("autoprefixer")
-var less = require("less")
-var stylus = require("stylus")
-var path = require("path")
-var fs = require("fs")
+  , CleanCSS = require("clean-css")
+  , autoprefixer = require("autoprefixer")
+  , less = require("less")
+  , stylus = require("stylus")
+  , path = require("path")
+  , fs = require("fs")
 
-var stylist = module.exports = {}
+  , stylist = module.exports = {}
+
+function read( path ){
+  return fs.readFileSync(path, "utf8")
+}
 
 /**
  *
  * */
-stylist.extract = function ( content, ignore, format ){
-  if ( !format ) {
-    if ( typeof ignore == "string" ) {
-      format = ignore
-      ignore = ""
-    }
-    else {
-      format = "css"
-      ignore = ""
-    }
-  }
-
-  var selectors = []
-    , braces = format == "styl" || format == "stylus" ? "" : "{}"
+stylist.extract = function ( content, options ){
+  var ignore = options.ignore || []
+    , style = options.style || "css"
+    , selectors = []
+  // stylus doesn't have braces
+  // other than that, selectors are defined the same way
+    , braces = style == "styl" || style == "stylus" ? "" : "{}"
 
   content.replace(/class\s*=\s*"([^"]+)"|id\s*=\s*"([^"]+)"/g, function ( match, cls, id ){
     if ( cls ) {
@@ -42,11 +39,13 @@ stylist.extract = function ( content, ignore, format ){
     }
     else if ( id ) {
       id = "#" + id + braces
-      if ( !!~ignore.indexOf(id) ) return match
-      selectors.push(id)
+      if ( ignore.length && !ignore.some(function ( ignored ){
+        return ignored == id || !!~ignored.indexOf(id)
+      }) ) selectors.push(id)
     }
     return match
   })
+
   return selectors
 }
 
@@ -56,18 +55,17 @@ stylist.extract = function ( content, ignore, format ){
 stylist.render = function ( file, options, done ){
   switch ( path.extname(file) ) {
     case ".css":
-      done(null, fs.readFileSync(file, "utf8"))
+      done(null, read(file))
       break
     case ".less":
-      less.render(fs.readFileSync(file, "utf8"), options, function ( err, css ){
+      less.render(read(file), options, function ( err, css ){
         done(err, css)
       })
       break
     case ".styl":
-    case ".stylus":
-      stylus.render(fs.readFileSync(file, "utf8"), options, function ( err, css ){
+      stylus.render(read(file), options, function ( err, css ){
         done(err, css)
-      });
+      })
       break
   }
 }
@@ -103,16 +101,15 @@ stylist.render = function ( file, options, done ){
  debug - set to true to get minification statistics under stats property (see test/custom-test.js for examples)
  * */
 stylist.compile = function ( content, htmls, options, done ){
-  // uncss
   uncss(htmls, options, function ( error, output, report ){
-    // report
-//    console.log('Original: ', report.original/1000, 'kilobytes')
-//    console.log('Tidy: ', report.tidy/1000, 'kilobytes')
-    // prefix
-    var prefixed = autoprefixer.process(output).css
-    // minify
-    var minimized = new CleanCSS(options).minify(prefixed)
-    done(minimized)
+    console.log('Original: ', report.original / 1000, 'kilobytes')
+    console.log('Tidy: ', report.tidy / 1000, 'kilobytes')
+    try {
+      done(null, new CleanCSS(options).minify(autoprefixer.process(output).css))
+    }
+    catch ( e ) {
+      done(e)
+    }
   })
 
 }
