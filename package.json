@@ -1,0 +1,36 @@
+{
+  "name": "stylist",
+  "version": "0.1.0",
+  "description": "Stylesheet generating and preprocessing",
+  "main": "stylist.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tunderdomb/stylist.git"
+  },
+  "keywords": [
+    "css",
+    "generate",
+    "css",
+    "preprocess",
+    "css",
+    "stylist",
+    "gruntplugin"
+  ],
+  "author": "tunderdomb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tunderdomb/stylist/issues"
+  },
+  "dependencies": {
+    "clean-css": "~2.1.0",
+    "autoprefixer": "latest",
+    "uncss": "~0.7.8",
+    "less": "~1.6.3",
+    "stylus": "~0.42.2"
+  },
+  "devDependencies": {
+  }
+}
