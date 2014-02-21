@@ -3,6 +3,7 @@ module.exports = function ( grunt ){
   grunt.initConfig({
     stylist: {
       collection: {
+        expand: true,
         src: "test/collection/*.html",
         ext: ".styl",
         options: {
@@ -10,6 +11,7 @@ module.exports = function ( grunt ){
         }
       },
       destDefined: {
+        expand: true,
         src: "test/collection/*.html",
         dest: "test/collection/style/",
         ext: ".less",
@@ -18,6 +20,7 @@ module.exports = function ( grunt ){
         }
       },
       module: {
+        expand: true,
         src: "test/module/*/",
         ext: ".less",
         options: {
@@ -25,6 +28,7 @@ module.exports = function ( grunt ){
         }
       },
       source: {
+        expand: true,
         src: "test/module/*/",
         ext: ".styl",
         options: {

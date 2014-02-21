@@ -63,7 +63,14 @@ module.exports = function ( grunt ){
         ignored = ignored || getIgnored(options.ignore)
         options.style = filePair.ext && filePair.ext.replace(/^\./, "") || options.style || "css"
         var name = path.basename(src, path.extname(src))
-        var dest = path.join(filePair.dest || path.dirname(src), name + "."+options.style)
+        var dest
+        // TODO if expanded pair, handle dest path
+        if ( filePair.orig.expand ) {
+          dest = filePair.dest
+        }
+        else {
+          dest = path.join(filePair.dest || path.dirname(src), name + "."+options.style)
+        }
         var existing = grunt.file.exists(dest)
           ? grunt.file.read(dest)
           : ""
