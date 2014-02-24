@@ -3,33 +3,36 @@ module.exports = function ( grunt ){
   grunt.initConfig({
     stylist: {
       collection: {
-        expand: true,
         src: "test/collection/*.html",
         ext: ".styl",
         options: {
           ignore: "test/ignore/*.styl"
         }
       },
+
       destDefined: {
         expand: true,
-        src: "test/collection/*.html",
+        cwd: "test/collection/",
+        src: "*.html",
         dest: "test/collection/style/",
         ext: ".less",
         options: {
           ignore: "test/ignore/*.less"
         }
       },
+
       module: {
         expand: true,
-        src: "test/module/*/",
+        src: "test/module/*/*.html",
         ext: ".less",
         options: {
           ignore: "test/ignore/*.less"
         }
       },
+
       source: {
         expand: true,
-        src: "test/module/*/",
+        src: "test/module/*/*.mustache",
         ext: ".styl",
         options: {
           ignore: "test/ignore/*.styl",

@@ -1,7 +1,7 @@
 {
   "name": "stylist",
-  "version": "0.1.1",
-  "description": "Extract selectors from html into stylesheets",
+  "version": "0.1.2",
+  "description": "Extract selectors from file into stylesheets.",
   "main": "stylist.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

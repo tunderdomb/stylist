@@ -1,20 +1,23 @@
 Stylist.js
 =========
 
-Extract selectors from html into a stylesheet,
+Extract selectors from files into a stylesheet,
 or append them to one, keeping existing rules.
-Optionally ignore rules declared in elsewhere.
+Optionally ignore rules declared in elsewhere,
+matched by a glob pattern.
 
-## Modes
+The purpose of this task is to help automate stylsheet creation.
+The problem arises when you begin the project with structuring
+the markup, and on the way you define classes and ids.
+When there's time to create styles for them, you have to rewrite those selectors.
 
-### Collection
+With stylist, you only have to write these selectors once, and set where those stylesheets should be placed.
 
-You can set up the grunt task to parse multiple files from a directory,
-extracting selectors from each, and writing them into a stylesheet named after the parsed file (e.g. a .html).
+The inteded usage is with alongside a watch task,
+so you can just write markup, and have stylist generate the sheets for you.
 
-### Module
-
-When the grunt task target matches a directory, only the file named after the directory will be matched and parsed.
+Stylist also keeps existing sheets, so if you define a new class in a html, the selector will be appended.
+This way, you can continuously write selectors and have them generated in stylsheets.
 
 ## Install
 
@@ -28,50 +31,58 @@ When the grunt task target matches a directory, only the file named after the di
 
 
 ```js
-    grunt.initConfig({
-      stylist: {
-        collection: {
-          // parse every file
-          // generate stylesheets into the same dir named after the html
-          src: "test/collection/*.html",
-          // generate stylus style files
-          ext: ".styl",
-          options: {
-            // ignore selectors defined in files matched by this glob pattern
-            ignore: "test/ignore/*.styl"
-          }
-        },
-        destDefined: {
-          src: "test/collection/*.html",
-          // generate files into another dir
-          dest: "test/collection/style/",
-          // generate less style files
-          ext: ".less",
-          options: {
-            ignore: "test/ignore/*.less"
-          }
-        },
-        module: {
-          // match every first subdirectory
-          // only the file named after it's parent will be parsed
-          // by default it's a .html
-          src: "test/module/*/",
-          ext: ".less",
-          options: {
-            ignore: "test/ignore/*.less"
-          }
-        },
-        source: {
-          src: "test/module/*/",
-          ext: ".styl",
-          options: {
-            ignore: "test/ignore/*.styl",
-            // match mustache file in the module dir
-            source: ".mustache"
-          }
-        }
+
+grunt.initConfig({
+  stylist: {
+    // write or append selectors into stylus files right next to the htmls
+    // files will be named after the htmls
+    collection: {
+      src: "test/collection/*.html",
+      ext: ".styl",
+      options: {
+        ignore: "test/ignore/*.styl"
       }
-    })
+    },
+
+    // write or append selectors into less files into another dir
+    // maintaining relative folder hierarchy
+    // files will be named after the htmls
+    destDefined: {
+      expand: true,
+      cwd: "test/collection/",
+      src: "*.html",
+      dest: "test/collection/style/",
+      ext: ".less",
+      options: {
+        ignore: "test/ignore/*.less"
+      }
+    },
+
+    // write or append selectors into less files right next to the htmls
+    // files will be named after the htmls
+    module: {
+      expand: true,
+      src: "test/module/*/*.html",
+      ext: ".less",
+      options: {
+        ignore: "test/ignore/*.less"
+      }
+    },
+
+    // write or append selectors into stylus files right next to the mustache templates
+    // files will be named after the templates
+    source: {
+      expand: true,
+      src: "test/module/*/*.mustache",
+      ext: ".styl",
+      options: {
+        ignore: "test/ignore/*.styl",
+        source: ".mustache"
+      }
+    }
+  }
+})
+
 ```
 
 ## LICENCE
