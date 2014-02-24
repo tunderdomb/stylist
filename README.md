@@ -25,7 +25,7 @@ This way, you can continuously write selectors and have them generated in stylsh
 
 ## Grunt task
 
-    grunt.loadNpmTasks('stylist');
+    grunt.loadNpmTasks('grunt-stylist');
 
 ## Usage
 
