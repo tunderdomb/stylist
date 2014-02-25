@@ -36,7 +36,7 @@ stylist.extract = function ( content, options ){
       if( !/^-?[_a-zA-Z]+[_a-zA-Z0-9-]*/.test(id) ) return
       id = "#" + id
       if( new RegExp(id+"\\s*" + (braces ? "{" : "(\\n|{)?")).test(ignore) ) return
-      id =+ braces
+      id += braces
       if( !!~selectors.indexOf(id) ) return
       selectors.push(id)
     }
