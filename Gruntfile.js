@@ -2,13 +2,13 @@ module.exports = function ( grunt ){
 
   grunt.initConfig({
     stylist: {
-      collection: {
-        src: "test/collection/*.html",
-        ext: ".styl",
-        options: {
-          ignore: "test/ignore/*.styl"
-        }
-      },
+//      collection: {
+//        src: "test/collection/*.html",
+//        ext: ".styl",
+//        options: {
+//          ignore: "test/ignore/*.styl"
+//        }
+//      },
 
       destDefined: {
         expand: true,
@@ -21,24 +21,24 @@ module.exports = function ( grunt ){
         }
       },
 
-      module: {
-        expand: true,
-        src: "test/module/*/*.html",
-        ext: ".less",
-        options: {
-          ignore: "test/ignore/*.less"
-        }
-      },
+//      module: {
+//        expand: true,
+//        src: "test/module/*/*.html",
+//        ext: ".less",
+//        options: {
+//          ignore: "test/ignore/*.less"
+//        }
+//      },
 
-      source: {
-        expand: true,
-        src: "test/module/*/*.mustache",
-        ext: ".styl",
-        options: {
-          ignore: "test/ignore/*.styl",
-          source: ".mustache"
-        }
-      }
+//      source: {
+//        expand: true,
+//        src: "test/module/*/*.mustache",
+//        ext: ".styl",
+//        options: {
+//          ignore: "test/ignore/*.styl",
+//          source: ".mustache"
+//        }
+//      }
     }
   })
 

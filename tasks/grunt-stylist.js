@@ -31,7 +31,7 @@ module.exports = function ( grunt ){
     this.files.forEach(function ( filePair ){
       var ignored = getIgnored(options.ignore)
         , dest = filePair.dest
-        , style = filePair.ext && filePair.ext.replace(/^\./, "") || options.style || "css"
+        , style = filePair.orig.ext && filePair.orig.ext.replace(/^\./, "") || options.style || "css"
 
       // use original destination
       filePair.src.forEach(function ( src ){

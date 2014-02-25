@@ -25,17 +25,20 @@ stylist.extract = function ( content, options ){
   content.replace(/class\s*=\s*"([^"]+)"|id\s*=\s*"([^"]+)"/g, function ( match, cls, id ){
     if ( cls ) {
       cls.trim().split(/\s+/).forEach(function ( cls ){
-        if ( /^-?[_a-zA-Z]+[_a-zA-Z0-9-]*/.test(cls) ) {
-          cls = "." + cls
-          if( !new RegExp(cls+"\\s*" + (braces ? "{" : "(\\n|{)?")).test(ignore) )
-            selectors.push(cls + braces)
-        }
+        if( !/^-?[_a-zA-Z]+[_a-zA-Z0-9-]*/.test(cls) ) return
+        if( new RegExp("\\."+cls+"\\s*" + (braces ? "{" : "(\\n|{)?")).test(ignore) ) return
+        cls = "." + cls + braces
+        if( !!~selectors.indexOf(cls) ) return
+        selectors.push(cls)
       })
     }
     else if ( id ) {
+      if( !/^-?[_a-zA-Z]+[_a-zA-Z0-9-]*/.test(id) ) return
       id = "#" + id
-      if( !ignore || !new RegExp(id+"\\s*" + (braces ? "{" : "(\\n|{)?")).test(ignore) )
-        selectors.push(id + braces)
+      if( new RegExp(id+"\\s*" + (braces ? "{" : "(\\n|{)?")).test(ignore) ) return
+      id =+ braces
+      if( !!~selectors.indexOf(id) ) return
+      selectors.push(id)
     }
     return match
   })
