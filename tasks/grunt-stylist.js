@@ -25,26 +25,29 @@ module.exports = function ( grunt ){
   grunt.registerMultiTask("stylist", "", function (){
     var options = this.options({
       ignore: [],
-      style: "styl"
+      style: "less"
     })
 
+    var ignored = getIgnored(options.ignore)
+
     this.files.forEach(function ( filePair ){
-      var ignored = getIgnored(options.ignore)
-        , dest = filePair.dest
+      var dest = filePair.dest
         , style = filePair.orig.ext && filePair.orig.ext.replace(/^\./, "") || options.style || "css"
 
-      // use original destination
       filePair.src.forEach(function ( src ){
         if ( !grunt.file.exists(src) ) {
           console.warn("File not found: ", src)
           return
         }
 
-        var selectors, existing
+        if ( !dest ) {
+          dest = path.join(path.dirname(src), path.basename(src, path.extname(src))+"."+options.style)
+        }
+        else if ( /\/$/.test(dest) ) {
+          dest = path.join(dest, path.basename(src, path.extname(src))+"."+options.style)
+        }
 
-        dest = filePair.orig.expand
-          ? dest
-          : path.join(filePair.dest || path.dirname(src), path.basename(src, path.extname(src)) + "."+options.style)
+        var selectors, existing
 
         existing = grunt.file.exists(dest)
           ? grunt.file.read(dest)

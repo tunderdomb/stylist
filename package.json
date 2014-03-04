@@ -1,7 +1,7 @@
 {
   "name": "grunt-stylist",
-  "version": "0.1.4",
-  "description": "Extract selectors from file into stylesheets.",
+  "version": "0.1.5",
+  "description": "Extract selectors from files into stylesheets.",
   "main": "stylist.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -19,6 +19,24 @@ so you can just write markup, and have stylist generate the sheets for you.
 Stylist also keeps existing sheets, so if you define a new class in a html, the selector will be appended.
 This way, you can continuously write selectors and have them generated in stylsheets.
 
+## Options
+
+### options.ignore
+
+Type: `String` | `Array`˙
+
+This string, or array of strings should be a set of globbing patterns.
+Selectors in matched files will be ignored, and won't be part of the output.
+
+### options.style
+
+Type: `String`
+
+Values: `"less"`, `"styl"`, `"sass"`
+
+Basically the format of the output. You can also select a preprocessor flavor by setting the `ext` expanded options
+on the target. Stylist will figure it out from there.
+
 ## Install
 
     npm install stylist --save-dev
@@ -34,20 +52,40 @@ This way, you can continuously write selectors and have them generated in stylsh
 
 grunt.initConfig({
   stylist: {
-    // write or append selectors into stylus files right next to the htmls
-    // files will be named after the htmls
-    collection: {
+
+    // test/collection/hey.html  ->  test\collection\hey.styl
+    // test/collection/ho.html  ->  test\collection\hey.styl
+    noDest: {
       src: "test/collection/*.html",
-      ext: ".styl",
       options: {
         ignore: "test/ignore/*.styl"
       }
     },
 
-    // write or append selectors into less files into another dir
-    // maintaining relative folder hierarchy
-    // files will be named after the htmls
-    destDefined: {
+    // test/collection/hey.html  ->  test\collection\hey.styl
+    // test/collection/ho.html  ->  test\collection\hey.styl
+    simpleDest: {
+      src: "test/collection/*.html",
+      dest: "test/collection/",
+      options: {
+        ignore: "test/ignore/*.styl"
+      }
+    },
+
+    // test/collection/hey.html  ->  hey.html
+    // test/collection/ho.html  ->  ho.html
+    expandNoDest: {
+      expand: true,
+      cwd: "test/collection/",
+      src: "*.html",
+      options: {
+        ignore: "test/ignore/*.less"
+      }
+    },
+
+    // test/collection/hey.html  ->  test/collection/style/hey.less
+    // test/collection/ho.html  ->  test/collection/style/ho.less
+    expandDest: {
       expand: true,
       cwd: "test/collection/",
       src: "*.html",
@@ -58,9 +96,8 @@ grunt.initConfig({
       }
     },
 
-    // write or append selectors into less files right next to the htmls
-    // files will be named after the htmls
-    module: {
+    // test/module/default/default.html  ->  test/module/default/default.less
+    expandExt: {
       expand: true,
       src: "test/module/*/*.html",
       ext: ".less",
@@ -69,15 +106,13 @@ grunt.initConfig({
       }
     },
 
-    // write or append selectors into stylus files right next to the mustache templates
-    // files will be named after the templates
+    // test/module/mustache/mustache.mustache  ->  test/module/mustache/mustache.styl
     source: {
       expand: true,
       src: "test/module/*/*.mustache",
       ext: ".styl",
       options: {
-        ignore: "test/ignore/*.styl",
-        source: ".mustache"
+        ignore: "test/ignore/*.styl"
       }
     }
   }
