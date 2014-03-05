@@ -15,12 +15,13 @@ stylist.extract = function ( content, options ){
     // other than that, selectors are defined the same way
     , braces = style == "styl" || style == "stylus" ? "" : "{}"
     , validSelector = /^-?[_a-zA-Z]+[_a-zA-Z0-9-]*$/
+    , regxp = /class\s*=\s*"([^"]+)"|\sid\s*=\s*"([^"]+)"|data-([A-z]+)\s*=\s*"([^"]+)"/g    
 
   function isDefinedElsewhere( selector ){
     return new RegExp(selector+"\\s*" + (braces ? "{" : "(\\n|{)?")).test(ignore)
   }
 
-  content.replace(/class\s*=\s*"([^"]+)"|id\s*=\s*"([^"]+)"/g, function ( match, cls, id ){
+  content.replace(regxp, function ( match, cls, id, data, data_value ){
     if ( cls ) {
       cls.trim().split(/\s+/).forEach(function ( cls ){
         if( !validSelector.test(cls) ) return
@@ -37,7 +38,14 @@ stylist.extract = function ( content, options ){
       id += braces
       if( !!~selectors.indexOf(id) ) return match
       selectors.push(id)
-    }
+    } 
+    else if ( data ) {      
+      if( !validSelector.test ) return
+      if( isDefinedElsewhere("\\[data-"+data+"\\=" + data_value + "\\]") ) return match
+      data = "[data-" + data + "=" + data_value + "]" + braces
+      if( !!~selectors.indexOf(data) ) return
+      selectors.push(data)
+    }     
     return match
   })
 
