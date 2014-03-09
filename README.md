@@ -13,7 +13,7 @@ When there's time to create styles for them, you have to rewrite those selectors
 
 With stylist, you only have to write these selectors once, and set where those stylesheets should be placed.
 
-The inteded usage is with alongside a watch task,
+The intended usage is with alongside a watch task,
 so you can just write markup, and have stylist generate the sheets for you.
 
 Stylist also keeps existing sheets, so if you define a new class in a html, the selector will be appended.
@@ -32,10 +32,51 @@ Selectors in matched files will be ignored, and won't be part of the output.
 
 Type: `String`
 
-Values: `"less"`, `"styl"`, `"sass"`
+Values: `"css"`, `"less"`, `"styl"`, `"stylus"`, `"sass"`
+
+Default: `"css"`, `"styl"`, `"stylus"`, `"sass"`
 
 Basically the format of the output. You can also select a preprocessor flavor by setting the `ext` expanded options
 on the target. Stylist will figure it out from there.
+This option is mainly useful if you want to extract selectors as stylus sheets.
+Because only stylus has optional braces, the output will omit them too.
+
+### options.classes
+
+Type: `Boolean`
+
+Default: true
+
+Include class selectors in output.
+
+### options.ids
+
+Type: `Boolean`
+
+Default: true
+
+Include id selectors output.
+
+### options.data
+
+Type: `Boolean`
+
+Default: false
+
+Include data attribute selectors in output.
+Right now, data attribute values are ignored and won't be part of the output selector.
+These two are treated as same:
+
+```html
+<input type="text" data-hidden/>
+<input type="text" data-hidden="hidden"/>
+```
+
+and will output:
+
+```css
+[data-hidden]{}
+```
 
 ## Install
 
@@ -119,6 +160,14 @@ grunt.initConfig({
 })
 
 ```
+
+## TEST
+
+Test it with [mocha](http://visionmedia.github.io/mocha/).
+
+    mocha
+
+For the assertions [chai assert](http://chaijs.com/guide/styles/#assert) is used.
 
 ## LICENCE
 
