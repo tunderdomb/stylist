@@ -19,6 +19,8 @@ so you can just write markup, and have stylist generate the sheets for you.
 Stylist also keeps existing sheets, so if you define a new class in a html, the selector will be appended.
 This way, you can continuously write selectors and have them generated in stylsheets.
 
+Commented code chunks are ignored. Anything between html comments treated as if they weren't even there.
+
 ## Options
 
 ### options.ignore
