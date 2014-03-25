@@ -10,16 +10,16 @@ module.exports = function ( grunt ){
 //        }
 //      },
 
-      destDefined: {
-        expand: true,
-        cwd: "test/collection/",
-        src: "*.html",
-        dest: "test/collection/style/",
-        ext: ".less",
-        options: {
-          ignore: "test/ignore/*.less"
-        }
-      },
+//      destDefined: {
+//        expand: true,
+//        cwd: "test/collection/",
+//        src: "*.html",
+//        dest: "test/collection/style/",
+//        ext: ".less",
+//        options: {
+//          ignore: "test/ignore/*.less"
+//        }
+//      },
 
 //      module: {
 //        expand: true,
@@ -30,15 +30,15 @@ module.exports = function ( grunt ){
 //        }
 //      },
 
-//      source: {
-//        expand: true,
-//        src: "test/module/*/*.mustache",
-//        ext: ".styl",
-//        options: {
-//          ignore: "test/ignore/*.styl",
-//          source: ".mustache"
-//        }
-//      }
+      source: {
+        expand: true,
+        src: "test/module/*/*.mustache",
+        ext: ".styl",
+        options: {
+          ignore: "test/ignore/*.styl",
+          source: ".mustache"
+        }
+      }
     }
   })
 
