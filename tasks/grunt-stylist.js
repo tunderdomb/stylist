@@ -22,17 +22,18 @@ module.exports = function ( grunt ){
     }
   }
 
-  grunt.registerMultiTask("stylist", "", function (){
+  grunt.registerMultiTask("stylist", "Extract selectors from markup", function (){
     var options = this.options({
-      ignore: [],
-      style: "less"
+      ignore: []
     })
 
-    var ignored = getIgnored(options.ignore)
+    var ignored = null
 
     this.files.forEach(function ( filePair ){
       var dest = filePair.dest
-        , style = filePair.orig.ext && filePair.orig.ext.replace(/^\./, "") || options.style || "css"
+      if ( !dest ) throw new Error("Destination undefined!")
+
+      var style = filePair.orig.ext && filePair.orig.ext.replace(/^\./, "") || "css"
 
       filePair.src.forEach(function ( src ){
         if ( !grunt.file.exists(src) ) {
@@ -40,22 +41,19 @@ module.exports = function ( grunt ){
           return
         }
 
-        if ( !dest ) {
-          dest = path.join(path.dirname(src), path.basename(src, path.extname(src))+"."+options.style)
-        }
-        else if ( /\/$/.test(dest) ) {
-          dest = path.join(dest, path.basename(src, path.extname(src))+"."+options.style)
-        }
+        // slate collecting ignored files until we need them
+        ignored = ignored || getIgnored(options.ignore)
 
-        var selectors, existing
-
-        existing = grunt.file.exists(dest)
+        var existing = grunt.file.exists(dest)
           ? grunt.file.read(dest)
           : ""
 
-        selectors = stylist.extract(grunt.file.read(src), {
+        var selectors = stylist.extract(grunt.file.read(src), {
           style: style,
-          ignore: ignored+existing
+          ignore: ignored+existing,
+          data: options.data,
+          classes: options.classes,
+          ids: options.ids
         })
 
         if ( selectors.length ) {
