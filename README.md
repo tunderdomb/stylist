@@ -84,43 +84,6 @@ and will output:
 
     npm install stylist --save-dev
 
-## Grunt task
-
-    grunt.loadNpmTasks('grunt-stylist');
-
-## Usage
-
-select output style with the `ext` Grunt option.
-it can be one of these:
-
-  - ".css"
-  - ".less"
-  - ".styl"
-  - ".sass"
-
-
-```js
-
-  grunt.initConfig({
-    stylist: {
-      extract: {
-        options: {
-          classes: true,
-          ids: true,
-          data: true,
-          ignore: "test/style/globals/*.less"
-        },
-        expand: true,
-        cwd: "test/markup/",
-        src: "*.html",
-        dest: "test/style/",
-        ext: ".css"
-      }
-    }
-  })
-
-```
-
 ## TEST
 
 Test it with [mocha](http://visionmedia.github.io/mocha/).

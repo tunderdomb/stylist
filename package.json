@@ -1,6 +1,6 @@
 {
-  "name": "grunt-stylist",
-  "version": "0.1.7",
+  "name": "stylist",
+  "version": "1.0.0",
   "description": "Extract selectors from files into stylesheets.",
   "main": "stylist.js",
   "scripts": {

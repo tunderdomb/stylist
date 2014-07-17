@@ -1,6 +1,6 @@
 var assert = require('chai').assert
   , stylist = require("../stylist")
-  , markup = require("fs").readFileSync("test/test.mustache", "utf-8")
+  , markup = require("fs").readFileSync("test/test.html", "utf-8")
   , ignore = "\
       .ignore-me{\
         background: none\
