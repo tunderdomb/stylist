@@ -35,8 +35,10 @@ stylist.extract = function ( content, options ){
     , match = /\s(?:class\s*=\s*"([^"]+)"|id\s*=\s*"([^"]+)"|(data-[^=\s\/>]+)(?:\s*=\s*"([^"]+)")?)/g
 
   function isDefinedElsewhere( selector ){
-    selector = selector.replace(/([\.\[\]])/g, "\\$1") // escape regexp entities
+    // escape regexp entities
+    selector = selector.replace(/([\.\[\]])/g, "\\$1")
     // match selectors as part of a selector chain, not just as key parts
+    selector += "(\\s+"+(braces?"|{":"")+")"
     return new RegExp(selector).test(ignore)
   }
 
