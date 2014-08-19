@@ -1,6 +1,6 @@
 {
   "name": "stylist",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Extract selectors from files into stylesheets.",
   "main": "stylist.js",
   "scripts": {

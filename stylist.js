@@ -34,12 +34,16 @@ stylist.extract = function ( content, options ){
     , validSelector = /^-?[_a-zA-Z]+[_a-zA-Z0-9-]*$/
     , match = /\s(?:class\s*=\s*"([^"]+)"|id\s*=\s*"([^"]+)"|(data-[^=\s\/>]+)(?:\s*=\s*"([^"]+)")?)/g
 
-  function isDefinedElsewhere( selector ){
+  function isDefinedElsewhere( selector, isDataAttr ){
     // escape regexp entities
     selector = selector.replace(/([\.\[\]])/g, "\\$1")
+    if ( isDataAttr ) {
+      selector = "\\[\\s*"+selector+"(\\s*\\=[^\\]]+?)?\\]"
+    }
     // match selectors as part of a selector chain, not just as key parts
-    selector += "(\\s+"+(braces?"|{":"")+")"
-    return new RegExp(selector).test(ignore)
+    selector += "(\\s+|,|\\.|#|\\[|\\:|\\&|\\>|\\+|\\~"+(braces?"|{":"")+")"
+    selector = new RegExp(selector)
+    return selector.test(ignore)
   }
 
   content
@@ -66,7 +70,7 @@ stylist.extract = function ( content, options ){
         // but for now the approach is to ignore data attribute values
         // because their values tend to be more dynamic
         // account for attributes without values like <input data-hidden>
-        if ( ignore && isDefinedElsewhere("[" + dataAttr) ) return match
+        if ( ignore && isDefinedElsewhere(dataAttr, true) ) return match
         dataAttr = "[" + dataAttr + "]" + braces
         if ( !~selectors.indexOf(dataAttr) ) selectors.push(dataAttr)
       }

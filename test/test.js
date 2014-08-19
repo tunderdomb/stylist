@@ -7,6 +7,22 @@ var assert = require('chai').assert
       }\
       #ignore-me-too{}\
       #me-too{}\
+      #me-too div{}\
+      [data-ignore]{}\
+      [data-ignore=\"something\"]{\
+        background: none\
+      }\
+    "
+  , ignore2 = "\
+      .ignore-me{\
+        background: none\
+      }\
+      #ignore-me-too:hover{}\
+      #ignore-me-too+div{}\
+      #ignore-me-too.div{}\
+      #ignore-me-too#div{}\
+      #ignore-me-too~div{}\
+      #me-too{}\
       [data-ignore]{}\
       [data-ignore=\"something\"]{\
         background: none\
@@ -22,6 +38,10 @@ describe('stylist', function(){
     })
     it('should extract ids and classes and ignore already defined ones', function(){
       var selectors = stylist.extract(markup, {ignore: ignore})
+      assert.lengthOf(selectors, 4, '1 unique id and 3 unique classes')
+    })
+    it('should extract ids and classes and ignore already defined ones including chained selectors', function(){
+      var selectors = stylist.extract(markup, {ignore: ignore2})
       assert.lengthOf(selectors, 4, '1 unique id and 3 unique classes')
     })
 
