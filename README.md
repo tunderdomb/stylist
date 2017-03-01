@@ -86,7 +86,7 @@ and will output:
 
 ## TEST
 
-Test it with [mocha](http://visionmedia.github.io/mocha/).
+Test it with [mocha](http://mochajs.org/).
 
     mocha
 
